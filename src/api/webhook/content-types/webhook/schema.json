@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "webhooks",
+  "info": {
+    "singularName": "webhook",
+    "pluralName": "webhooks",
+    "displayName": "Webhook",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "payload": {
+      "type": "json"
+    },
+    "lead": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::lead.lead",
+      "mappedBy": "webhook"
+    }
+  }
+}

@@ -6,7 +6,7 @@
   "scripts": {
     "build": "strapi build",
     "deploy": "strapi deploy",
-    "develop": "strapi develop",
+    "dev": "strapi develop",
     "start": "strapi start",
     "strapi": "strapi"
   },
@@ -15,10 +15,12 @@
     "@strapi/plugin-users-permissions": "5.5.0",
     "@strapi/strapi": "5.5.0",
     "better-sqlite3": "11.3.0",
+    "koa": "^2.15.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
-    "styled-components": "^6.0.0"
+    "styled-components": "^6.0.0",
+    "telegraf": "^4.16.3"
   },
   "devDependencies": {
     "@types/node": "^20",

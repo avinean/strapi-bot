@@ -32,30 +32,27 @@ npm run build
 yarn build
 ```
 
-## ⚙️ Deployment
+## ⚙️ Local development
 
-Strapi gives you many possible deployment options for your project including [Strapi Cloud](https://cloud.strapi.io). Browse the [deployment section of the documentation](https://docs.strapi.io/dev-docs/deployment) to find the best solution for your use case.
+To test bot locally, you can use [ngrok](https://ngrok.com/).
 
+First, run the Strapi server:
+```bash
+npm run dev
 ```
-yarn strapi deploy
+It will start the server on `http://localhost:1337`.\
+Then, run ngrok:
+
+```bash
+ngrok http 1337
+```
+It will give you a public URL.\
+Now, you can use this URL to set up the webhook in your bot.
+```bash
+https://<your-ngrok-url>/webhooks/telegram/webhook
+```
+After that you can set up the webhook in your bot.
+```bash
+curl -F "url={YOUR NGROK URL}" https://api.telegram.org/bot{YOUR_BOT_TOKEN}/setWebhook
 ```
 
-## 📚 Learn more
-
-- [Resource center](https://strapi.io/resource-center) - Strapi resource center.
-- [Strapi documentation](https://docs.strapi.io) - Official Strapi documentation.
-- [Strapi tutorials](https://strapi.io/tutorials) - List of tutorials made by the core team and the community.
-- [Strapi blog](https://strapi.io/blog) - Official Strapi blog containing articles made by the Strapi team and the community.
-- [Changelog](https://strapi.io/changelog) - Find out about the Strapi product updates, new features and general improvements.
-
-Feel free to check out the [Strapi GitHub repository](https://github.com/strapi/strapi). Your feedback and contributions are welcome!
-
-## ✨ Community
-
-- [Discord](https://discord.strapi.io) - Come chat with the Strapi community including the core team.
-- [Forum](https://forum.strapi.io/) - Place to discuss, ask questions and find answers, show your Strapi project and get feedback or just talk with other Community members.
-- [Awesome Strapi](https://github.com/strapi/awesome-strapi) - A curated list of awesome things related to Strapi.
-
----
-
-<sub>🤫 Psst! [Strapi is hiring](https://strapi.io/careers).</sub>

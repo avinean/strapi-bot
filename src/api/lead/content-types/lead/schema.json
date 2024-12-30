@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "leads",
+  "info": {
+    "singularName": "lead",
+    "pluralName": "leads",
+    "displayName": "Lead",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user_id": {
+      "type": "string"
+    },
+    "is_bot": {
+      "type": "boolean"
+    },
+    "first_name": {
+      "type": "string"
+    },
+    "username": {
+      "type": "string"
+    },
+    "language_code": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "webhook": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::webhook.webhook",
+      "inversedBy": "lead"
+    }
+  }
+}
