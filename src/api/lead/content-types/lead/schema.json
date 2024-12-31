@@ -30,10 +30,10 @@
     "type": {
       "type": "string"
     },
-    "webhook": {
+    "telegram": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::webhook.webhook",
+      "target": "api::telegram.telegram",
       "inversedBy": "lead"
     }
   }

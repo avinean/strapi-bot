@@ -391,23 +391,23 @@ export interface ApiLeadLead extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::lead.lead'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    telegram: Schema.Attribute.Relation<'oneToOne', 'api::telegram.telegram'>;
     type: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     user_id: Schema.Attribute.String;
     username: Schema.Attribute.String;
-    webhook: Schema.Attribute.Relation<'oneToOne', 'api::webhook.webhook'>;
   };
 }
 
-export interface ApiWebhookWebhook extends Struct.CollectionTypeSchema {
-  collectionName: 'webhooks';
+export interface ApiTelegramTelegram extends Struct.CollectionTypeSchema {
+  collectionName: 'telegrams';
   info: {
     description: '';
-    displayName: 'Webhook';
-    pluralName: 'webhooks';
-    singularName: 'webhook';
+    displayName: 'Telegram';
+    pluralName: 'telegrams';
+    singularName: 'telegram';
   };
   options: {
     draftAndPublish: false;
@@ -420,7 +420,7 @@ export interface ApiWebhookWebhook extends Struct.CollectionTypeSchema {
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
-      'api::webhook.webhook'
+      'api::telegram.telegram'
     > &
       Schema.Attribute.Private;
     payload: Schema.Attribute.JSON;
@@ -941,7 +941,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::lead.lead': ApiLeadLead;
-      'api::webhook.webhook': ApiWebhookWebhook;
+      'api::telegram.telegram': ApiTelegramTelegram;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
