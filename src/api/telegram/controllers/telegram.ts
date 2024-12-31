@@ -4,10 +4,8 @@ import telegramService from '../services/telegram';
 export default {
   async handle(ctx: Context) {
     try {
-      const body = ctx.request.body;
-      console.log('Received webhook payload:', body);
-
-      const result = await telegramService.processUpdate(body);
+      console.log('Received webhook payload:', ctx.request.body);
+      const result = await telegramService.handleUpdate(ctx.request.body);
 
       return ctx.send({
         success: true,

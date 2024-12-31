@@ -35,6 +35,12 @@
       "relation": "oneToOne",
       "target": "api::telegram.telegram",
       "inversedBy": "lead"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "phone_number": {
+      "type": "string"
     }
   }
 }

@@ -387,9 +387,11 @@ export interface ApiLeadLead extends Struct.CollectionTypeSchema {
     first_name: Schema.Attribute.String;
     is_bot: Schema.Attribute.Boolean;
     language_code: Schema.Attribute.String;
+    last_name: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::lead.lead'> &
       Schema.Attribute.Private;
+    phone_number: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     telegram: Schema.Attribute.Relation<'oneToOne', 'api::telegram.telegram'>;
     type: Schema.Attribute.String;
