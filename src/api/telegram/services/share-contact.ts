@@ -2,7 +2,7 @@ import { Context, deunionize, Telegraf } from 'telegraf';
 import { message } from 'telegraf/filters';
 import { Menu } from './types';
 
-export function consultation(bot: Telegraf) {
+export function shareContact(bot: Telegraf) {
   bot.on(message('contact'), async (ctx: Context) => {
     const contactMessage = deunionize(ctx.message);
 

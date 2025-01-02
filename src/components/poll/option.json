@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_poll_options",
+  "info": {
+    "displayName": "Option",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string"
+    },
+    "isCorrect": {
+      "type": "boolean"
+    },
+    "difficultness": {
+      "type": "integer"
+    }
+  }
+}

@@ -30,17 +30,20 @@
     "type": {
       "type": "string"
     },
-    "telegram": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::telegram.telegram",
-      "inversedBy": "lead"
-    },
     "last_name": {
       "type": "string"
     },
     "phone_number": {
       "type": "string"
+    },
+    "payload": {
+      "type": "json"
+    },
+    "poll_sessions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::poll-session.poll-session",
+      "mappedBy": "lead"
     }
   }
 }

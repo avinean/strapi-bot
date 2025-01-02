@@ -1,7 +1,7 @@
 import { Telegraf, Context } from 'telegraf';
 import { start } from './start';
-import { Menu } from './types';
-import { consultation } from './consultation';
+import { shareContact } from './share-contact';
+import { levelCheck } from './level-check';
 
 
 
@@ -14,13 +14,8 @@ const bot = new Telegraf(botToken);
 
 function setupBotActions() {
   start(bot);
-  consultation(bot);
-
-  bot.hears(Menu.levelCheck.text, async (ctx: Context) => {
-    await ctx.reply('You have selected "Check my level". Please follow the instructions to complete the test.');
-  });
-
-  
+  shareContact(bot);
+  levelCheck(bot);
 }
 
 setupBotActions();

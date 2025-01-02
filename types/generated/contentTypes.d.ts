@@ -391,15 +391,84 @@ export interface ApiLeadLead extends Struct.CollectionTypeSchema {
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::lead.lead'> &
       Schema.Attribute.Private;
+    payload: Schema.Attribute.JSON;
     phone_number: Schema.Attribute.String;
+    poll_sessions: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::poll-session.poll-session'
+    >;
     publishedAt: Schema.Attribute.DateTime;
-    telegram: Schema.Attribute.Relation<'oneToOne', 'api::telegram.telegram'>;
     type: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     user_id: Schema.Attribute.String;
     username: Schema.Attribute.String;
+  };
+}
+
+export interface ApiPollSessionPollSession extends Struct.CollectionTypeSchema {
+  collectionName: 'poll_sessions';
+  info: {
+    description: '';
+    displayName: 'PollSession';
+    pluralName: 'poll-sessions';
+    singularName: 'poll-session';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    answers: Schema.Attribute.JSON;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    isCompleted: Schema.Attribute.Boolean;
+    lead: Schema.Attribute.Relation<'manyToOne', 'api::lead.lead'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::poll-session.poll-session'
+    > &
+      Schema.Attribute.Private;
+    poll: Schema.Attribute.Relation<'oneToOne', 'api::poll.poll'>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPollPoll extends Struct.CollectionTypeSchema {
+  collectionName: 'polls';
+  info: {
+    description: '';
+    displayName: 'Poll';
+    pluralName: 'polls';
+    singularName: 'poll';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    items: Schema.Attribute.Component<'poll.items', true>;
+    language: Schema.Attribute.Enumeration<['en']>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::poll.poll'> &
+      Schema.Attribute.Private;
+    poll_session: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::poll-session.poll-session'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String;
+    type: Schema.Attribute.Enumeration<['level']>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -418,14 +487,12 @@ export interface ApiTelegramTelegram extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    lead: Schema.Attribute.Relation<'oneToOne', 'api::lead.lead'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::telegram.telegram'
     > &
       Schema.Attribute.Private;
-    payload: Schema.Attribute.JSON;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -943,6 +1010,8 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::lead.lead': ApiLeadLead;
+      'api::poll-session.poll-session': ApiPollSessionPollSession;
+      'api::poll.poll': ApiPollPoll;
       'api::telegram.telegram': ApiTelegramTelegram;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

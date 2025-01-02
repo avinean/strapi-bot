@@ -1,10 +1,3 @@
-export const TelegramCommands = {
-  /**
-   * User started the bot
-   */
-  START: 'start',
-};
-
 export const Menu = {
   consultation: {
     text: '📞 Ask for consultation',

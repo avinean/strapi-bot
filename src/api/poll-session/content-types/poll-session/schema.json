@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "poll_sessions",
+  "info": {
+    "singularName": "poll-session",
+    "pluralName": "poll-sessions",
+    "displayName": "PollSession",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "lead": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::lead.lead",
+      "inversedBy": "poll_sessions"
+    },
+    "poll": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::poll.poll",
+      "inversedBy": "poll_session"
+    },
+    "isCompleted": {
+      "type": "boolean"
+    },
+    "answers": {
+      "type": "json"
+    }
+  }
+}

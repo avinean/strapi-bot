@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_poll_items",
+  "info": {
+    "displayName": "Item",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "question": {
+      "type": "string"
+    },
+    "options": {
+      "type": "component",
+      "repeatable": true,
+      "component": "poll.option"
+    },
+    "score": {
+      "type": "integer"
+    },
+    "multipleChoices": {
+      "type": "boolean"
+    }
+  }
+}

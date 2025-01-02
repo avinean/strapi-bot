@@ -12,14 +12,5 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "payload": {
-      "type": "json"
-    },
-    "lead": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::lead.lead",
-      "mappedBy": "telegram"
-    }
   }
 }
