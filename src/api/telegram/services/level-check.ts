@@ -1,5 +1,5 @@
 import { Context, Telegraf } from 'telegraf';
-import { Menu } from './types';
+import { Menu, PendingAction } from './types';
 
 interface PollOption {
   label: string;
@@ -124,6 +124,12 @@ export async function levelCheck(bot: Telegraf) {
             },
           }
         );
+        await strapi.db.query('api::lead.lead').update({
+          where: { id: lead.id },
+          data: {
+            pending_actions: [...(lead.pending_actions || []), PendingAction.ShareLEvelCheckResults],
+          },
+        });
       }
     }
   });
@@ -191,3 +197,4 @@ async function sendNextPoll(ctx: Context, chatId: string, pollId: number) {
     }
   );
 }
+

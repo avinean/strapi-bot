@@ -1,6 +1,6 @@
 import { Context, deunionize, Telegraf } from 'telegraf';
 import { message } from 'telegraf/filters';
-import { Menu } from './types';
+import { Menu, PendingAction } from './types';
 
 export function shareContact(bot: Telegraf) {
   bot.on(message('contact'), async (ctx: Context) => {
@@ -24,7 +24,52 @@ export function shareContact(bot: Telegraf) {
           last_name: contact.last_name || null
         },
       });
-      await ctx.reply(`Thank you, ${contact.first_name}! We've saved your contact: ${contact.phone_number}`);
+
+      if (lead.pending_actions?.includes(PendingAction.ThanksForSharingContacts)) {
+        await ctx.reply(`Thank you, ${contact.first_name}! We've saved your contact: ${contact.phone_number}`);
+
+        await strapi.db.query('api::lead.lead').update({
+          where: { id: lead.id },
+          data: {
+            pending_actions: lead.pending_actions.filter((action) => action !== PendingAction.ThanksForSharingContacts),
+          },
+        });
+      } else if (lead.pending_actions?.includes(PendingAction.ShareLEvelCheckResults)) {
+        const pollSession = await strapi.db.query('api::poll-session.poll-session').findOne({
+          where: {
+            lead: { user_id: chatId },
+          },
+          populate: {
+            poll: {
+              populate: {
+                items: {
+                  populate: { options: true }
+                }
+              }
+            }
+          },
+          orderBy: { createdAt: 'desc' }
+        });
+
+        if (!pollSession) return;
+
+        const totalScore = pollSession.poll.items.reduce((acc, item, idx) => {
+          const answer = pollSession.answers[idx];
+          const correctOption = item.options.findIndex((opt) => opt.isCorrect);
+          return acc + (answer === correctOption ? item.score : 0);
+        }, 0);
+
+        await ctx.telegram.sendMessage(
+          chatId,
+          `🎓 Test complete! Your score: ${totalScore}/${pollSession.poll.items.length}`
+        );
+        await strapi.db.query('api::lead.lead').update({
+          where: { id: lead.id },
+          data: {
+            pending_actions: lead.pending_actions.filter((action) => action !== PendingAction.ShareLEvelCheckResults),
+          },
+        });
+      }
     } else {
       await ctx.reply('We couldn’t find your registration in our system. Please start over with /start.');
     }

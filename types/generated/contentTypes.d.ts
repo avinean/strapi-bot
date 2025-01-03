@@ -392,6 +392,7 @@ export interface ApiLeadLead extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::lead.lead'> &
       Schema.Attribute.Private;
     payload: Schema.Attribute.JSON;
+    pending_actions: Schema.Attribute.JSON;
     phone_number: Schema.Attribute.String;
     poll_sessions: Schema.Attribute.Relation<
       'oneToMany',
@@ -424,6 +425,7 @@ export interface ApiPollSessionPollSession extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     isCompleted: Schema.Attribute.Boolean;
+    isExpectingSharing: Schema.Attribute.Boolean;
     lead: Schema.Attribute.Relation<'manyToOne', 'api::lead.lead'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<

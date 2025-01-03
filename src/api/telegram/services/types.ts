@@ -8,3 +8,8 @@ export const Menu = {
     submenu: null,
   },
 }
+
+export const PendingAction = {
+  ThanksForSharingContacts: 'thanksForSharingContacts',
+  ShareLEvelCheckResults: 'shareLevelCheckResults',
+}

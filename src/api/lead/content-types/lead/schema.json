@@ -44,6 +44,9 @@
       "relation": "oneToMany",
       "target": "api::poll-session.poll-session",
       "mappedBy": "lead"
+    },
+    "pending_actions": {
+      "type": "json"
     }
   }
 }

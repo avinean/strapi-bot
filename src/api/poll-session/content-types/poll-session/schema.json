@@ -29,6 +29,9 @@
     },
     "answers": {
       "type": "json"
+    },
+    "isExpectingSharing": {
+      "type": "boolean"
     }
   }
 }
