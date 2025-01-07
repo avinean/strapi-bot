@@ -24,8 +24,10 @@ interface PollSession {
 }
 
 export async function levelCheck(bot: Telegraf) {
-  bot.hears(Menu.levelCheck.text, async (ctx: Context) => {
-    const chatId = String(ctx.message?.chat.id);
+  bot.action(Menu.levelCheck.action, async (ctx: Context) => {
+    await ctx.answerCbQuery();
+
+    const chatId = String(ctx.chat?.id);
     if (!chatId) return;
 
     const poll = await strapi.db.query('api::poll.poll').findOne({

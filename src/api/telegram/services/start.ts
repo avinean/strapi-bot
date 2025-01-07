@@ -21,7 +21,7 @@ export function start(bot: Telegraf) {
           username: user.username,
           language_code: user.language_code,
           type: 'start',
-          payload: ctx.update
+          payload: ctx.update,
         },
       });
 
@@ -29,16 +29,15 @@ export function start(bot: Telegraf) {
     }
 
     const hasContact = existingLead.phone_number || existingLead.contact_shared;
-
-    const buttons = hasContact
-      ? [[Menu.consultation.text, Menu.levelCheck.text]]
-      : [[Markup.button.contactRequest(Menu.consultation.text), Menu.levelCheck.text]];
-
+    
     await ctx.reply(
       hasContact
         ? `Welcome back, ${existingLead.first_name || 'user'}! 👋`
         : 'Welcome! You have been registered as a lead.\nPlease share your contact information.',
-      Markup.keyboard(buttons).oneTime().resize()
+      Markup.inlineKeyboard([[
+          Markup.button.callback(Menu.consultation.text, Menu.consultation.action),
+          Markup.button.callback(Menu.levelCheck.text, Menu.levelCheck.action),
+        ]])
     );
   });
 }

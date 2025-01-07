@@ -1,8 +1,50 @@
-import { Context, deunionize, Telegraf } from 'telegraf';
+import { Context, deunionize, Markup, Telegraf } from 'telegraf';
 import { message } from 'telegraf/filters';
 import { Menu, PendingAction } from './types';
 
 export function shareContact(bot: Telegraf) {
+  bot.action(Menu.consultation.action, async (ctx) => {
+    await ctx.answerCbQuery(); // Acknowledge the button press
+
+    const chatId = ctx.chat?.id;
+    const user = ctx.from;
+
+    if (!chatId || !user) return;
+
+    // Fetch user (lead) from the database
+    const lead = await strapi.db.query('api::lead.lead').findOne({
+      where: { user_id: String(chatId) },
+      populate: ['telegram'],
+    });
+
+    if (!lead) {
+      console.warn(`User with chat ID ${chatId} not found in the database.`);
+      await ctx.reply('We couldn’t find your details. Please restart the bot with /start.');
+      return;
+    }
+
+    console.log('🔍 Consultation Request Received:');
+    console.log(JSON.stringify(lead, null, 2));
+
+    // Check if the user has already provided contact info
+    if (lead.phone_number) {
+      // ✅ User has already shared their contact – greet them
+      await ctx.reply(
+        `Welcome back, ${lead.first_name || 'dear user'}! 👌 We'll get in touch with you shortly.`
+      );
+    } else {
+      // 📝 User hasn't shared their contact – ask for it
+      await ctx.reply(
+        'Please share your contact information so our manager can reach out to you.',
+        Markup.keyboard([
+          Markup.button.contactRequest('📲 Share Contact'),
+        ])
+          .oneTime()
+          .resize()
+      );
+    }
+  });
+
   bot.on(message('contact'), async (ctx: Context) => {
     const contactMessage = deunionize(ctx.message);
 
@@ -73,31 +115,5 @@ export function shareContact(bot: Telegraf) {
     } else {
       await ctx.reply('We couldn’t find your registration in our system. Please start over with /start.');
     }
-  });
-
-  
-  bot.hears(Menu.consultation.text, async (ctx: Context) => {
-    const chatId = ctx.message?.chat.id;
-    const user = ctx.message?.from;
-
-    if (!chatId || !user) return;
-
-    const lead = await strapi.db.query('api::lead.lead').findOne({
-      where: { user_id: String(chatId) },
-      populate: ['telegram'],
-    });
-
-    if (!lead) {
-      console.warn(`User with chat ID ${chatId} not found in the database.`);
-      await ctx.reply('We couldn’t find your details. Please restart the bot with /start.');
-      return;
-    }
-
-    console.log('🔍 Consultation Request Received:');
-    console.log(JSON.stringify(lead, null, 2));
-
-    await ctx.reply(
-      `We'll get back to you soon, ${lead.first_name || 'dear user'}! 👌`
-    );
   });
 }
